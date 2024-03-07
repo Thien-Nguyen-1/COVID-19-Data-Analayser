@@ -43,9 +43,10 @@ public class Frame extends Application
     
     @Override
     public void start(Stage stage) throws Exception {
+        DateSelector dateSelector = new DateSelector();
         BorderPane root = new BorderPane();
    
-        HBox topPart = new HBox();    // where the date selection is located
+        HBox topPart = dateSelector.createTopPart();    // where the date selection is located
         Pane middlePart = new Pane(); // where the main map is located
         HBox lowerPart = new HBox();  // where the buttons are to change the panels
          
@@ -54,14 +55,14 @@ public class Frame extends Application
         middlePart.setId("middlePart");
         lowerPart.setId("lowerPart");
         
-        Text textLabel = new Text("Top Bar");
+        //Text textLabel = new Text("Top Bar");
         Text textLabelLow = new Text("Lower Bar");
         Text textLabelMid = new Text("Middle Bar");
 
         Scene scene = new Scene(root, 600,600, Color.WHITE);
         scene.getStylesheets().add("design.css");
 
-        topPart.getChildren().addAll(textLabel);
+        //topPart.getChildren().addAll(textLabel);
         middlePart.getChildren().addAll(textLabelMid); // Add content to middlePart
         lowerPart.getChildren().addAll(textLabelLow);
 
