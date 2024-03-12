@@ -1,5 +1,3 @@
-
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import javafx.scene.control.DateCell;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Alert;
+
 /**
  * Write a description of JavaFX class CovidViewer here.
  *
@@ -29,8 +29,10 @@ public class DateSelector
     private String stringDate;
     private DatePicker fromDatePicker;
     private DatePicker toDatePicker;
-    private LocalDate startDate = LocalDate.of(2020, 1, 1);
-    private LocalDate endDate  = LocalDate.of(2023, 10, 15);
+    private LocalDate firstDate = LocalDate.of(2020, 1, 1);
+    private LocalDate lastDate  = LocalDate.of(2023, 10, 15);
+    private LocalDate fromDate;
+    private LocalDate toDate;
     /**
      * The start method is the main entry point for every JavaFX application. 
      * It is called after the init() method has returned and after 
@@ -58,7 +60,7 @@ public class DateSelector
                 super.updateItem(date, empty);
                 
                 // disable dates outside of the specified range
-                setDisable(date.isBefore(startDate) || date.isAfter(endDate));
+                setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
             } 
         });  
@@ -69,7 +71,7 @@ public class DateSelector
                 super.updateItem(date, empty);
                 
                 // disable dates outside of the specified range
-                setDisable(date.isBefore(startDate) || date.isAfter(endDate));
+                setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
             } 
         });
@@ -92,14 +94,53 @@ public class DateSelector
     private void chooseFromDate(Event event)
     {
         LocalDate date = fromDatePicker.getValue();
-        stringDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        
+        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
+            displayErrorMessage("No data from this date");
+            fromDatePicker.setValue(null);
+            return;
+        } else if (toDate != null && date.isAfter(toDate)) {
+            displayErrorMessage("Start date cannot be after end date");
+            fromDatePicker.setValue(null);
+            return;
+        }
+        
+        fromDate = date;
+        stringDate = dateToString(date);
         System.out.println(stringDate);
     }
     
     private void chooseToDate(Event event)
     {
         LocalDate date = toDatePicker.getValue();
-        stringDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        
+        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
+            displayErrorMessage("No data from this date");
+            toDatePicker.setValue(null);
+            return;
+        } else if (toDate != null && date.isBefore(fromDate)) {
+            displayErrorMessage("End date cannot be before start date");
+            toDatePicker.setValue(null);
+            return;
+        }
+        
+        toDate = date;
+        stringDate = dateToString(date);
         System.out.println(stringDate);
+    }
+    
+    private void displayErrorMessage(String reason) {
+        //System.out.println("Date entered is invalid. Reason: " + reason);
+        
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Date Error");
+        alert.setHeaderText(null);
+        alert.setContentText(reason);
+        
+        alert.showAndWait();
+    }
+    
+    private String dateToString(LocalDate date) {
+        return date.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
