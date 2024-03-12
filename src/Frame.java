@@ -51,7 +51,7 @@ public class Frame extends Application {
         HBox lowerPart = new HBox();
 
         // Load the map image
-        Image mapImage = new Image(new File("/Users/arjanbedi/Documents/GitHub/CourseWork-4-COVID-19/src/boroughs.png").toURI().toString());
+        Image mapImage = new Image(new File("boroughs.png").toURI().toString());
         mapView = new ImageView(mapImage);
 
         // Set up preserving aspect ratio
