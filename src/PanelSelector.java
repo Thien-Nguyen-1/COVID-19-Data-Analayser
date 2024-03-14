@@ -88,9 +88,9 @@ public class PanelSelector
     }
     
     public void goToNextPanel(Event event) {
-        if(pointer==2){
-            pointer =0;
-            currentPane = paneList[0];
+        if(pointer== paneList.length -1){
+            pointer = 0;
+            currentPane = paneList[pointer];
         }
         else {
             pointer++;
@@ -101,8 +101,8 @@ public class PanelSelector
     
     public void goToPrevPanel(Event event) {
        if(pointer==0){
-            pointer =2;
-            currentPane = paneList[0];
+            pointer = paneList.length -1;
+            currentPane = paneList[pointer];
         }
         else {
             pointer--;
