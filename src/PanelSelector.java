@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import java.time.LocalDate;
 
 /**
  * Write a description of JavaFX class PanelSelector here.
@@ -85,6 +86,15 @@ public class PanelSelector
     public void enableButtons() {
         nextButton.setDisable(false);
         prevButton.setDisable(false);
+    }
+    public void updateDateMap(LocalDate[] startEndDates){   //update the map to show colour + stats indications
+        for(int i=0; i<paneList.length;i++){
+            if(paneList[i] instanceof MapHandler){
+                 MapHandler refMap = (MapHandler)paneList[i];
+                 refMap.addDates(startEndDates);  
+                 break;
+            }
+        }
     }
     
     public void goToNextPanel(Event event) {

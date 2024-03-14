@@ -4,30 +4,55 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import java.time.LocalDate;
 
 
 public class MapHandler extends Pane
 {
      
     private ArrayList<LocShape> allBoroughs;
+    private ArrayList<CovidData> allData;
     private final int xSep = 80, ySep = 60, offset = 4; //units in pixel
     private Queue<String> allBoroughNames;
+    private CovidDataLoader covidLoader;
     
     private double widthPane, heightPane;
     
     
-    public MapHandler(double widthPane, double heightPane)
-    {
+    public MapHandler(double widthPane, double heightPane){
+    
+        
         super();
+    
         this.widthPane = widthPane;
         this.heightPane = heightPane;
         
+        covidLoader = new CovidDataLoader();
         allBoroughs = new ArrayList<LocShape>();
         setUpHandlers();
         setUpBoroughs();
+        
+        allData = covidLoader.load();
         drawMap();
         drawNames();
+        
     }
+    
+    public void addDates(LocalDate[] startEndDates){
+        
+        HashMap<String, ArrayList<CovidData>> extractedData = covidLoader.getDataDateRange(allData, startEndDates);
+        
+        if(!allBoroughs.isEmpty()){
+            for(LocShape borough: allBoroughs){
+                for(CovidData data: extractedData.get(borough.getName())){
+                    if(data.getBorough().equals(borough.getName())){
+                        borough.addData(data);
+                    }
+            }
+        }
+    }
+    }
+    
     
     private void setUpHandlers(){
         this.setOnMouseClicked(event -> {
@@ -57,6 +82,8 @@ public class MapHandler extends Pane
     private void setUpBoroughs(){
         allBoroughs.clear();
         setUpBoroughNames();
+        
+        
         
         int xRef = (int)(0.5*widthPane);
         int yRef = (int)(0.125*heightPane);
@@ -93,8 +120,7 @@ public class MapHandler extends Pane
         
         //7th row//
         setBoroughObj(4,xRef,yRef);
-        
-        
+    
        
         
     }
@@ -141,6 +167,8 @@ public class MapHandler extends Pane
         for(LocShape borough: allBoroughs){
             hit = borough.checkInBounds(mouseLoc);
             if(hit){
+                
+                
                 
                 break;
             }

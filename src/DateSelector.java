@@ -93,6 +93,7 @@ public class DateSelector
     private void chooseFromDate(Event event)
     {
         LocalDate date = fromDatePicker.getValue();
+        System.out.println(date.toString() + " is the current date");
         
         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
             displayErrorMessage("No data from this date");
@@ -114,7 +115,7 @@ public class DateSelector
         }
         
         stringDate = dateToString(date);
-        System.out.println(stringDate);
+       
     }
     
     private void chooseToDate(Event event)
@@ -135,13 +136,13 @@ public class DateSelector
             return;
         }
         
-
         toDate = date;
         if (isDateRangeValid()) {
             ps.enableButtons();
+            ps.updateDateMap(getFirstLastDate()); //returns the date interval
         }
         stringDate = dateToString(date); // convert date object to string
-        System.out.println(stringDate);
+     
     }
     
     private void displayErrorMessage(String reason) {
@@ -154,6 +155,12 @@ public class DateSelector
         
         alert.showAndWait();
     }
+    
+    /* retrieves the date range */
+    public LocalDate[] getFirstLastDate(){ 
+        return new LocalDate[]{firstDate,lastDate};
+    }
+    
     
     private String dateToString(LocalDate date) {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE);
