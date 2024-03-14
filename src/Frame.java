@@ -48,10 +48,11 @@ public class Frame extends Application {
         stage.setMinWidth(1080);
         stage.setMinHeight(720);
         
-        DateSelector dateSelector = new DateSelector(paneSelector);
+        
         BorderPane root = new BorderPane();
         
-         paneSelector = new PanelSelector(root);
+        paneSelector = new PanelSelector(root);
+        DateSelector dateSelector = new DateSelector(paneSelector);
         // Load CSS
         Scene scene = new Scene(root, 1080, 720, Color.WHITE);
         scene.getStylesheets().add("design.css");

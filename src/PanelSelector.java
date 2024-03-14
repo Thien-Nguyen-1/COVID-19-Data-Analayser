@@ -43,7 +43,7 @@ public class PanelSelector
         prevButton.setFont(font);
         
         // Disabling the button before date selection
-        //this.disableButtons();
+        this.disableButtons();
         setPaneListener();
     }
     public HBox createBottomPart()
@@ -78,6 +78,7 @@ public class PanelSelector
         nextButton.setDisable(true);
         prevButton.setDisable(true);
         currentPane = paneList[0];
+        pointer = 0;
         displayPane();
     }
     
