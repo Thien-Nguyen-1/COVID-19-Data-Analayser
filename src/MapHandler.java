@@ -94,7 +94,7 @@ public class MapHandler extends Pane
         //7th row//
         setBoroughObj(4,xRef,yRef);
         
-        //draw the borough names
+        
        
         
     }
