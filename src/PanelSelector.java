@@ -30,7 +30,7 @@ public class PanelSelector
     
     public PanelSelector(BorderPane root) {
         this.root = root;
-        paneList = new Pane[]{new Pane(), new MapHandler(1280,640), new Pane()}; //change Panes for 1st and 3rd 
+        paneList = new Pane[]{new Pane(), new MapHandler(1080,720), new Pane()}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
  
         // creating left and right buttons to move between panels
@@ -58,7 +58,7 @@ public class PanelSelector
         prevButton.setPrefHeight(10);
         nextButton.setPrefWidth(80);
         nextButton.setPrefHeight(10);
-            
+        
         hbox.getChildren().addAll(prevButton, createSpacer(), nextButton);
         hbox.setAlignment(Pos.CENTER);
 
@@ -95,7 +95,6 @@ public class PanelSelector
             pointer++;
             currentPane = paneList[pointer];
         }
-    
         displayPane();
     }
     
@@ -119,14 +118,15 @@ public class PanelSelector
                 
                 //check for if current pane is map
                 if(paneList[i] instanceof MapHandler){
-                    MapHandler temp = (MapHandler) paneList[i];
-                    temp.redrawMap((int)currentPane.getWidth());
-                    break;
+                    if(currentPane.getWidth() != 0){
+                         MapHandler temp = (MapHandler) paneList[i];
+                        temp.redrawMap((int)currentPane.getWidth());
+                        break;
+                        
+                    }
                 }
                 
                 //add other pane modifications here:
-                
-                
             }
             
         });
