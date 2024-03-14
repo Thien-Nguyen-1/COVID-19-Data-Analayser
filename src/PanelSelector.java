@@ -31,7 +31,7 @@ public class PanelSelector
     
     public PanelSelector(BorderPane root) {
         this.root = root;
-        paneList = new Pane[]{new Pane(), new MapHandler(1080,720), new Pane()}; //change Panes for 1st and 3rd 
+        paneList = new Pane[]{new Pane(), new MapHandler(1080,720), new StatisticsPane(1080,720)}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
  
         // creating left and right buttons to move between panels
