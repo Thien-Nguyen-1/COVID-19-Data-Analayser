@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=LocShape
+comment1.params=name\ xStart\ yStart
+comment1.target=LocShape(java.lang.String,\ double,\ double)
+comment2.params=xStart\ yStart
+comment2.target=void\ resetShape(double,\ double)
+comment3.params=
+comment3.target=void\ setUpShape()
+comment4.params=
+comment4.target=java.lang.String\ getName()
+comment5.params=
+comment5.target=Point\ getOrigin()
+comment6.params=
+comment6.target=void\ printBounds()
+comment7.params=mousePoint
+comment7.target=boolean\ checkInBounds(Point)
+comment8.params=
+comment8.target=javafx.scene.shape.Polygon\ getShape()
+numComments=9

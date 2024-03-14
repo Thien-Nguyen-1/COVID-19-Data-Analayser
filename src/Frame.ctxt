@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Frame
+comment1.params=stage
+comment1.target=void\ start(javafx.stage.Stage)
+comment2.params=
+comment2.target=void\ setUpHandlers()
+comment2.text=add\ handlers\ for\ the\ arrow\ buttons\ on\ the\ bottom
+numComments=3
