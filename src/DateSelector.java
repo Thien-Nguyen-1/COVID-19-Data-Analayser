@@ -125,7 +125,7 @@ public class DateSelector
             toDatePicker.setValue(null);
             toDate = null;
             return;
-        } else if (toDate != null && date.isBefore(fromDate)) {
+        } else if (fromDate != null && date.isBefore(fromDate)) {
             displayErrorMessage("End date cannot be before start date");
             ps.disableButtons();
             toDatePicker.setValue(null);
@@ -143,7 +143,7 @@ public class DateSelector
     }
     
     private void displayErrorMessage(String reason) {
-        //System.out.println("Date entered is invalid. Reason: " + reason);
+        System.out.println("Date entered is invalid. Reason: " + reason);
         
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Date Error");
