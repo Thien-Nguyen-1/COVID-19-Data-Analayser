@@ -5,6 +5,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import java.time.LocalDate;
+import java.util.TreeSet;
 
 
 public class MapHandler extends Pane
@@ -15,12 +16,12 @@ public class MapHandler extends Pane
     private final int xSep = 80, ySep = 60, offset = 4; //units in pixel
     private Queue<String> allBoroughNames;
     private CovidDataLoader covidLoader;
+    private LocalDate[] startEndDates;
     
     private double widthPane, heightPane;
     
     
     public MapHandler(double widthPane, double heightPane){
-    
         
         super();
     
@@ -39,19 +40,43 @@ public class MapHandler extends Pane
     }
     
     public void addDates(LocalDate[] startEndDates){
-        
+        this.startEndDates = startEndDates;
+        TreeSet<Integer> orderedValues = new TreeSet<>();
         HashMap<String, ArrayList<CovidData>> extractedData = covidLoader.getDataDateRange(allData, startEndDates);
+       
+        int total= extractedData.values().stream().flatMap(ArrayList::stream).mapToInt(CovidData::getTotalDeaths).reduce(0, Integer::sum);   
+       
+         System.out.println("Changing colours");
         
+           
         if(!allBoroughs.isEmpty()){
+          
             for(LocShape borough: allBoroughs){
-                for(CovidData data: extractedData.get(borough.getName())){
-                    if(data.getBorough().equals(borough.getName())){
-                        borough.addData(data);
-                    }
+                
+                 borough.resetData(); //to prevent additional appending
+            
+                 for(String key: extractedData.keySet()){
+                
+                     if(key.equals(borough.getName())){
+                          ArrayList<CovidData> temp = (extractedData.get(key));
+                           for(CovidData datum: temp){
+                               borough.addData(datum);
+                          }
+                     }
+                    
+                 }
+                 
+                 
+                borough.determineColour();
+                 
+            
             }
+            
+            
         }
-    }
-    }
+    
+}
+    
     
     
     private void setUpHandlers(){
@@ -82,8 +107,6 @@ public class MapHandler extends Pane
     private void setUpBoroughs(){
         allBoroughs.clear();
         setUpBoroughNames();
-        
-        
         
         int xRef = (int)(0.5*widthPane);
         int yRef = (int)(0.125*heightPane);
@@ -122,7 +145,6 @@ public class MapHandler extends Pane
         setBoroughObj(4,xRef,yRef);
     
        
-        
     }
     
     /*method called when window is re-sized*/
@@ -133,6 +155,7 @@ public class MapHandler extends Pane
         drawMap();
         drawNames();
         
+        addDates(startEndDates);
     }
     
     private void setBoroughObj(int noItems, int xStart, int yStart){

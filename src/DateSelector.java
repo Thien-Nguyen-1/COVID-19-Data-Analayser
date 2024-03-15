@@ -57,7 +57,6 @@ public class DateSelector
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                
                 // disable dates outside of the specified range
                 setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
@@ -68,7 +67,6 @@ public class DateSelector
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                
                 // disable dates outside of the specified range
                 setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
@@ -111,17 +109,16 @@ public class DateSelector
         
         fromDate = date;
         if (isDateRangeValid()) {
+            ps.updateDateMap(getFirstLastDate()); 
             ps.enableButtons();
         }
-        
         stringDate = dateToString(date);
-       
     }
     
     private void chooseToDate(Event event)
     {
         LocalDate date = toDatePicker.getValue();
-        
+     
         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
             displayErrorMessage("No data from this date");
             ps.disableButtons();
@@ -158,7 +155,7 @@ public class DateSelector
     
     /* retrieves the date range */
     public LocalDate[] getFirstLastDate(){ 
-        return new LocalDate[]{firstDate,lastDate};
+        return new LocalDate[]{fromDate,toDate};
     }
     
     
@@ -167,6 +164,7 @@ public class DateSelector
     }
     
     public boolean isDateRangeValid() {
+        
         return fromDate != null && toDate != null;
     }
 }

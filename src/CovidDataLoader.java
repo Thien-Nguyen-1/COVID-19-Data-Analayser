@@ -79,16 +79,14 @@ public class CovidDataLoader {
         
             if((currDate.isBefore(endDate) || currDate.isEqual(endDate)) && (currDate.isAfter(startDate) || currDate.isEqual(startDate))){
     
-                if(allData.containsKey(data.getBorough())){
-                    ArrayList<CovidData> temp = allData.get(data.getBorough());
+                 if(allData.containsKey(data.getBorough())){
+                    allData.get(data.getBorough()).add(data);
+                } else {
+                    ArrayList<CovidData> temp = new ArrayList<>();
                     temp.add(data);
                     allData.put(data.getBorough(), temp);
                 }
-                else{
-                    ArrayList<CovidData> temp = new ArrayList<CovidData>();
-                    temp.add(data);
-                    allData.put(data.getBorough(),temp);
-                }
+                
             }
         }
         return allData;

@@ -4,35 +4,87 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color; 
 //import java.awt.Point;
 
+
+
+
+
 public class LocShape
 { 
     private String name;
     private Polygon shape;
     private ArrayList<Point> allPoints;
+    private ArrayList<CovidData> allData; //holds list of all covid data associated with this borough in a particular date interval
+    
     private double xStart, yStart;
     private final double xOffset = 40; //should be halved when reach a corner
     private final double yOffset = 60;
-    Point test;
+    
+   
+    private Color shapeColor;
+    
+    public enum DeathRateColour{
+          GREEN(Color.GREEN), YELLOW(Color.YELLOW), RED(Color.RED);
+          final Color color;
+          DeathRateColour(Color color) {
+             this.color = color;
+          }
+     }
+    
     public LocShape(String name, double xStart, double yStart)
     {
        this.name = name;
        this.xStart = xStart;
        this.yStart = yStart;
+           
+       shapeColor = Color.GREY;
+       
+       allData = new ArrayList<CovidData>();
        shape = new Polygon();
        allPoints = new ArrayList<Point>();
        setUpShape();
     }
     
+    /* method to add data on to array list, used for colour of button and statistics */
+    public void addData(CovidData dataToAdd){
+        allData.add(dataToAdd);
+    }
+    
+    public void resetData(){
+        allData.clear();
+    }
+    
+    /*method to determine the colour of the button based on list of covid data and total no. of deaths*/
+    public void determineColour(){
+    
+      int boroughDeaths = allData.stream().mapToInt(obj -> obj.getTotalDeaths()).sum();
+     
+      if(boroughDeaths <= 2500) {
+          shapeColor = DeathRateColour.GREEN.color;
+      }
+      else if(boroughDeaths <= 20000){
+          shapeColor = DeathRateColour.YELLOW.color;
+      }
+      else {
+          shapeColor = DeathRateColour.RED.color;
+      }
+      
+     resetShape(xStart, yStart);
+    }
+    
+   
     public void resetShape(double xStart, double yStart){
         this.xStart = xStart;
         this.yStart = yStart;
         allPoints.clear();
+        shape.getPoints().clear();
         setUpShape();
     }
     
     
     private void setUpShape(){
-      
+        
+        shape.setFill(shapeColor);
+        
         shape.getPoints().addAll(xStart, yStart); //top left corner of the hexagon
         allPoints.add(new Point(xStart,yStart));
         
