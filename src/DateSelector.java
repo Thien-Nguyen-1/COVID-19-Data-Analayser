@@ -40,7 +40,7 @@ public class DateSelector
     public DateSelector(PanelSelector ps) {
         toLabel = new Label("To:");
         fromLabel = new Label("From");
-        firstDate = LocalDate.of(2020, 1, 1);
+        firstDate = LocalDate.of(2020, 2, 3);
         lastDate  = LocalDate.of(2023, 10, 15);
         this.ps = ps;
     }
@@ -57,7 +57,6 @@ public class DateSelector
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                
                 // disable dates outside of the specified range
                 setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
@@ -68,7 +67,6 @@ public class DateSelector
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
-                
                 // disable dates outside of the specified range
                 setDisable(date.isBefore(firstDate) || date.isAfter(lastDate));
                 
@@ -93,6 +91,7 @@ public class DateSelector
     private void chooseFromDate(Event event)
     {
         LocalDate date = fromDatePicker.getValue();
+        System.out.println(date.toString() + " is the current date");
         
         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
             displayErrorMessage("No data from this date");
@@ -110,24 +109,23 @@ public class DateSelector
         
         fromDate = date;
         if (isDateRangeValid()) {
+            ps.updateDateMap(getFirstLastDate()); 
             ps.enableButtons();
         }
-        
         stringDate = dateToString(date);
-        System.out.println(stringDate);
     }
     
     private void chooseToDate(Event event)
     {
         LocalDate date = toDatePicker.getValue();
-        
+     
         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
             displayErrorMessage("No data from this date");
             ps.disableButtons();
             toDatePicker.setValue(null);
             toDate = null;
             return;
-        } else if (toDate != null && date.isBefore(fromDate)) {
+        } else if (fromDate != null && date.isBefore(fromDate)) {
             displayErrorMessage("End date cannot be before start date");
             ps.disableButtons();
             toDatePicker.setValue(null);
@@ -135,17 +133,18 @@ public class DateSelector
             return;
         }
         
-
         toDate = date;
         if (isDateRangeValid()) {
             ps.enableButtons();
+            ps.updateDateMap(getFirstLastDate()); //returns the date interval
+            ps.updateStatisticsPane(getFirstLastDate());
         }
         stringDate = dateToString(date); // convert date object to string
-        System.out.println(stringDate);
+     
     }
     
     private void displayErrorMessage(String reason) {
-        //System.out.println("Date entered is invalid. Reason: " + reason);
+        System.out.println("Date entered is invalid. Reason: " + reason);
         
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Date Error");
@@ -155,11 +154,18 @@ public class DateSelector
         alert.showAndWait();
     }
     
+    /* retrieves the date range */
+    public LocalDate[] getFirstLastDate(){ 
+        return new LocalDate[]{fromDate,toDate};
+    }
+    
+    
     private String dateToString(LocalDate date) {
         return date.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
     
     public boolean isDateRangeValid() {
+        
         return fromDate != null && toDate != null;
     }
 }

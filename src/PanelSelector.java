@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import java.time.LocalDate;
 
 /**
  * Write a description of JavaFX class PanelSelector here.
@@ -30,7 +31,7 @@ public class PanelSelector
     
     public PanelSelector(BorderPane root) {
         this.root = root;
-        paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720)}; //change Panes for 1st and 3rd 
+        paneList = new Pane[]{new Pane(), new MapHandler(1080,720), new StatisticsPane(1080,720)}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
  
         // creating left and right buttons to move between panels
@@ -46,6 +47,7 @@ public class PanelSelector
         this.disableButtons();
         setPaneListener();
     }
+    
     public HBox createBottomPart()
     {
         HBox hbox = new HBox();
@@ -68,6 +70,7 @@ public class PanelSelector
     public Pane getCurrentPane() {
         return currentPane;
     }
+    
     private Region createSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
@@ -85,6 +88,20 @@ public class PanelSelector
     public void enableButtons() {
         nextButton.setDisable(false);
         prevButton.setDisable(false);
+    }
+    
+    public void updateDateMap(LocalDate[] startEndDates){   //update the map to show colour + stats indications
+        for(int i=0; i<paneList.length;i++){
+            if(paneList[i] instanceof MapHandler){
+                 MapHandler refMap = (MapHandler)paneList[i];
+                 refMap.addDates(startEndDates);  
+                 break;
+            }
+        }
+    }
+    
+    public void updateStatisticsPane(LocalDate[] firstLastDates){
+        
     }
     
     public void goToNextPanel(Event event) {
@@ -130,9 +147,7 @@ public class PanelSelector
                 //add other pane modifications here:
             }
             
-        });
-        
-        
+        }); 
     }
     
     public void displayPane() {
