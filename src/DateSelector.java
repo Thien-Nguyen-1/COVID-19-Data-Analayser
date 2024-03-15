@@ -1,4 +1,6 @@
 import javafx.geometry.Insets;
+
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.DatePicker;
@@ -110,6 +112,7 @@ public class DateSelector
         fromDate = date;
         if (isDateRangeValid()) {
             ps.updateDateMap(getFirstLastDate()); 
+            ps.updateStatisticsPane(getFirstLastDate());
             ps.enableButtons();
         }
         stringDate = dateToString(date);
@@ -165,7 +168,7 @@ public class DateSelector
     }
     
     public boolean isDateRangeValid() {
-        
         return fromDate != null && toDate != null;
     }
 }
+
