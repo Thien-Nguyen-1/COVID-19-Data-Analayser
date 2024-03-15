@@ -7,15 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import com.opencsv.CSVReader;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.time.LocalDate;
 
 public class CovidDataLoader {
  
     /** 
      * Return an ArrayList containing the rows in the Covid London data set csv file.
      */
+    
     public ArrayList<CovidData> load() {
         System.out.println("Begin loading Covid London dataset...");
         ArrayList<CovidData> records = new ArrayList<CovidData>();
+        
+        
         try{
             URL url = getClass().getResource("covid_london.csv");
             CSVReader reader = new CSVReader(new FileReader(new File(url.toURI()).getAbsolutePath()));
@@ -62,7 +67,31 @@ public class CovidDataLoader {
         }
         return 0.0;
     }
-
+    
+    
+    public HashMap<String, ArrayList<CovidData>> getDataDateRange(ArrayList<CovidData> allCovidData, LocalDate[] dateInterval){
+        LocalDate startDate = dateInterval[0], endDate = dateInterval[1];
+        HashMap<String, ArrayList<CovidData>> allData = new HashMap<String, ArrayList<CovidData>>(){};
+        
+        for(CovidData data: allCovidData){
+       
+            LocalDate currDate = LocalDate.parse(data.getDate());
+        
+            if((currDate.isBefore(endDate) || currDate.isEqual(endDate)) && (currDate.isAfter(startDate) || currDate.isEqual(startDate))){
+    
+                 if(allData.containsKey(data.getBorough())){
+                    allData.get(data.getBorough()).add(data);
+                } else {
+                    ArrayList<CovidData> temp = new ArrayList<>();
+                    temp.add(data);
+                    allData.put(data.getBorough(), temp);
+                }
+                
+            }
+        }
+        return allData;
+    }
+  
     /**
      *
      * @param intString the string to be converted to Integer type

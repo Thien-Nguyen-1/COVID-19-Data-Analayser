@@ -4,30 +4,80 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import java.time.LocalDate;
+import java.util.TreeSet;
 
 
 public class MapHandler extends Pane
 {
      
     private ArrayList<LocShape> allBoroughs;
+    private ArrayList<CovidData> allData;
     private final int xSep = 80, ySep = 60, offset = 4; //units in pixel
     private Queue<String> allBoroughNames;
+    private CovidDataLoader covidLoader;
+    private LocalDate[] startEndDates;
     
     private double widthPane, heightPane;
     
     
-    public MapHandler(double widthPane, double heightPane)
-    {
+    public MapHandler(double widthPane, double heightPane){
+        
         super();
+    
         this.widthPane = widthPane;
         this.heightPane = heightPane;
         
+        covidLoader = new CovidDataLoader();
         allBoroughs = new ArrayList<LocShape>();
         setUpHandlers();
         setUpBoroughs();
+        
+        allData = covidLoader.load();
         drawMap();
         drawNames();
+        
     }
+    
+    public void addDates(LocalDate[] startEndDates){
+        this.startEndDates = startEndDates;
+        TreeSet<Integer> orderedValues = new TreeSet<>();
+        HashMap<String, ArrayList<CovidData>> extractedData = covidLoader.getDataDateRange(allData, startEndDates);
+       
+        int total= extractedData.values().stream().flatMap(ArrayList::stream).mapToInt(CovidData::getTotalDeaths).reduce(0, Integer::sum);   
+       
+         System.out.println("Changing colours");
+        
+           
+        if(!allBoroughs.isEmpty()){
+          
+            for(LocShape borough: allBoroughs){
+                
+                 borough.resetData(); //to prevent additional appending
+            
+                 for(String key: extractedData.keySet()){
+                
+                     if(key.equals(borough.getName())){
+                          ArrayList<CovidData> temp = (extractedData.get(key));
+                           for(CovidData datum: temp){
+                               borough.addData(datum);
+                          }
+                     }
+                    
+                 }
+                 
+                 
+                borough.determineColour();
+                 
+            
+            }
+            
+            
+        }
+    
+}
+    
+    
     
     private void setUpHandlers(){
         this.setOnMouseClicked(event -> {
@@ -44,7 +94,7 @@ public class MapHandler extends Pane
             offer("Enfield");
             offer("Barnet"); offer("Haringey"); offer("Waltham Forest");
             offer("Harrow");  offer("Brent"); offer("Camden"); offer("Islington"); offer("Hackney"); offer("Redbridge"); offer("Havering");
-            offer("Hillingdon"); offer("Ealing");  offer("Kensington And Chelsea"); offer("Westminster"); offer("Tower Hamlets");  offer("Newham");  offer("Barking And Dagernham");
+            offer("Hillingdon"); offer("Ealing");  offer("Kensington And Chelsea"); offer("Westminster"); offer("Tower Hamlets");  offer("Newham");  offer("Barking And Dagenham");
             offer("Hounslow");  offer("Hammersmith And Fulham");  offer("Wandsworth"); offer("City Of London"); offer("Greenwich"); offer("Bexley");
             offer("Richmond Upon Thames"); offer("Merton");  offer("Lambeth"); offer("Southwark"); offer("Lewisham");
             offer("Kingston Upon Thames"); offer("Sutton"); offer("Croydon"); offer("Bromley");
@@ -93,10 +143,8 @@ public class MapHandler extends Pane
         
         //7th row//
         setBoroughObj(4,xRef,yRef);
-        
-        
+    
        
-        
     }
     
     /*method called when window is re-sized*/
@@ -107,6 +155,7 @@ public class MapHandler extends Pane
         drawMap();
         drawNames();
         
+        addDates(startEndDates);
     }
     
     private void setBoroughObj(int noItems, int xStart, int yStart){
@@ -141,6 +190,8 @@ public class MapHandler extends Pane
         for(LocShape borough: allBoroughs){
             hit = borough.checkInBounds(mouseLoc);
             if(hit){
+                
+                
                 
                 break;
             }
