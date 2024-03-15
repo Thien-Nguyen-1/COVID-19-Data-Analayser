@@ -12,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import java.time.LocalDate;
 
 /**
  * Write a description of JavaFX class PanelSelector here.
@@ -47,7 +46,6 @@ public class PanelSelector
         this.disableButtons();
         setPaneListener();
     }
-    
     public HBox createBottomPart()
     {
         HBox hbox = new HBox();
@@ -70,7 +68,6 @@ public class PanelSelector
     public Pane getCurrentPane() {
         return currentPane;
     }
-    
     private Region createSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
@@ -88,25 +85,6 @@ public class PanelSelector
     public void enableButtons() {
         nextButton.setDisable(false);
         prevButton.setDisable(false);
-    }
-    
-    public void updateDateMap(LocalDate[] startEndDates){   //update the map to show colour + stats indications
-        for(int i=0; i<paneList.length;i++){
-            if(paneList[i] instanceof MapHandler){
-                 MapHandler refMap = (MapHandler)paneList[i];
-                 refMap.addDates(startEndDates);  
-                 break;
-            }
-        }
-    }
-    
-    public void updateStatisticsPane(LocalDate[] firstLastDates){
-        for(int i= 0; i<paneList.length; i++){ 
-            if (paneList[i] instanceof StatisticsPane){
-                StatisticsPane temp = (StatisticsPane) paneList[i];
-                temp.updateDates(firstLastDates);
-            }
-        }
     }
     
     public void goToNextPanel(Event event) {
@@ -136,18 +114,25 @@ public class PanelSelector
     
     private void setPaneListener(){
         root.widthProperty().addListener((e) ->{
+          
             for(int i=0; i<paneList.length;i++){
+                
                 //check for if current pane is map
                 if(paneList[i] instanceof MapHandler){
                     if(currentPane.getWidth() != 0){
-                        MapHandler temp = (MapHandler) paneList[i];
+                         MapHandler temp = (MapHandler) paneList[i];
                         temp.redrawMap((int)currentPane.getWidth());
                         break;
+                        
                     }
                 }
+                
                 //add other pane modifications here:
             }
-        }); 
+            
+        });
+        
+        
     }
     
     public void displayPane() {

@@ -1,22 +1,17 @@
-//Imports for GUI 
-//Layout elements
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.BorderPane;
-//Components
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-
-//Formatting layout
-import javafx.geometry.Pos;
-
-//Imports for class functionality
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.scene.layout.Pane;
+
+import javafx.stage.Stage;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Write a description of JavaFX class TheSimpleGUI here.
@@ -41,13 +36,8 @@ public class StatisticsPane extends BorderPane
     String[] statisticLabels;
     int[] statistics;
     
-    
     //create variable to store currently displayed stat index
     private int statIndex = 0;
-    
-    //Store date range variables
-    LocalDate startDate;
-    LocalDate endDate;
     
     /**
      * The start method is the main entry point for every JavaFX application. 
@@ -95,12 +85,13 @@ public class StatisticsPane extends BorderPane
         forwardButton.setMaxWidth(30);
         backButton.setMaxWidth(30);
         
-        //Create the array containing stastics labels 
-        this.statisticLabels = setUpLabelArray();
+        //Create statistics and stastics labels 
+        statistics = calculateStatistics(records);
+        statisticLabels = setUpLabelArray();
         
-        //Preventing null pointer exceptions by creating initial statistics array full of zeros
-        this.statistics = setupInitialStats();
-        
+        // Setup stage to show first stat
+        statMeasure.setText(statisticLabels[statIndex]);
+        statistic.setText(Integer.toString(statistics[statIndex]));
     }
 
     /**
@@ -117,7 +108,8 @@ public class StatisticsPane extends BorderPane
             statIndex += 1;
         }
         
-        showStatistics();
+        statMeasure.setText(statisticLabels[statIndex]);
+        statistic.setText(Integer.toString(statistics[statIndex]));
         
     }
     
@@ -148,23 +140,18 @@ public class StatisticsPane extends BorderPane
 
         //Calculating the statistics
         for (CovidData data : covidDataList) {
-            System.out.println(data.getDate());
-            LocalDate checkDate = LocalDate.parse(data.getDate());
+            numberOfRecords += 1;
 
-            if(dateinRange(checkDate)){
-                numberOfRecords += 1;
-
-                //Incrementing values to total number of deaths
-                totalNumberOfDeaths += data.getNewDeaths();
+            //Incrementing values to total number of deaths
+            totalNumberOfDeaths += data.getNewDeaths();
             
-                //Incrementing each records data to get a total so that an average can be found after. 
-                totalRetailGMR += data.getRetailRecreationGMR();
-                totalWorkplacesGMR += data.getWorkplacesGMR();
-                averageTotalCases += data.getTotalCases();
-            }    
+            //Incrementing each records data to get a total so that an average can be found after. 
+            totalRetailGMR += data.getRetailRecreationGMR();
+            totalWorkplacesGMR += data.getWorkplacesGMR();
+            averageTotalCases += data.getTotalCases();
+            
         }
-        
-        
+
         //dividing by number of records to obtain an average
         int averageRetailGMR = totalRetailGMR / numberOfRecords;
         int averageWorkplacesGMR = totalWorkplacesGMR / numberOfRecords;
@@ -189,40 +176,5 @@ public class StatisticsPane extends BorderPane
         statisticLabels[3] = "Average Total Cases:";
         
         return statisticLabels;
-    }
-    
-    private int[] setupInitialStats(){
-        int[] temp;
-        temp = new int[4];
-        //add zeros
-        temp[0] = 0;
-        temp[1] = 0;
-        temp[2] = 0;
-        temp[3] = 0;
-        
-        return temp;
-    }
-    
-    //This method updates the statistics window to show values of the arrays
-    private void showStatistics(){
-        statMeasure.setText(statisticLabels[statIndex]);
-        statistic.setText(Integer.toString(statistics[statIndex]));
-    }
-    
-    
-    //return testDate.after(startDate) && testDate.before(endDate);
-    private boolean dateinRange(LocalDate checkDate){
-        if (checkDate == null || this.startDate == null || this.endDate == null) {
-            return false; // Handle null values gracefully
-        }
-        return checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
-    }
-    
-    public void updateDates(LocalDate[] startEndDates){
-        this.startDate = startEndDates[0];
-        this.endDate = startEndDates[1];
-        this.statistics = setupInitialStats();
-        this.statistics = calculateStatistics(records);
-        showStatistics();
     }
 } 
