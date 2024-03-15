@@ -47,6 +47,7 @@ public class PanelSelector
         this.disableButtons();
         setPaneListener();
     }
+    
     public HBox createBottomPart()
     {
         HBox hbox = new HBox();
@@ -69,6 +70,7 @@ public class PanelSelector
     public Pane getCurrentPane() {
         return currentPane;
     }
+    
     private Region createSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
@@ -87,6 +89,7 @@ public class PanelSelector
         nextButton.setDisable(false);
         prevButton.setDisable(false);
     }
+    
     public void updateDateMap(LocalDate[] startEndDates){   //update the map to show colour + stats indications
         for(int i=0; i<paneList.length;i++){
             if(paneList[i] instanceof MapHandler){
@@ -95,6 +98,10 @@ public class PanelSelector
                  break;
             }
         }
+    }
+    
+    public void updateStatisticsPane(LocalDate[] firstLastDates){
+        
     }
     
     public void goToNextPanel(Event event) {
@@ -140,9 +147,7 @@ public class PanelSelector
                 //add other pane modifications here:
             }
             
-        });
-        
-        
+        }); 
     }
     
     public void displayPane() {

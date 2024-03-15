@@ -1,17 +1,21 @@
-import javafx.application.Application;
+//Imports for GUI 
+//Layout elements
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
+//Components
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import java.util.ArrayList;
-import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
-import javafx.scene.layout.Pane;
 
-import javafx.stage.Stage;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
+//Formatting layout
+import javafx.geometry.Pos;
+
+//Imports for class functionality
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Write a description of JavaFX class TheSimpleGUI here.
@@ -38,6 +42,9 @@ public class StatisticsPane extends BorderPane
     
     //create variable to store currently displayed stat index
     private int statIndex = 0;
+    
+    //Store date range variables
+    
     
     /**
      * The start method is the main entry point for every JavaFX application. 
@@ -176,5 +183,11 @@ public class StatisticsPane extends BorderPane
         statisticLabels[3] = "Average Total Cases:";
         
         return statisticLabels;
+    }
+    
+    //return testDate.after(startDate) && testDate.before(endDate);
+    private boolean inRange(LocalDate checkDate, LocalDate start, LocalDate end){
+        boolean inRange = checkDate.isAfter(start) && checkDate.isBefore(end);
+        return inRange;
     }
 } 

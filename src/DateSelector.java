@@ -137,6 +137,7 @@ public class DateSelector
         if (isDateRangeValid()) {
             ps.enableButtons();
             ps.updateDateMap(getFirstLastDate()); //returns the date interval
+            ps.updateStatisticsPane(getFirstLastDate());
         }
         stringDate = dateToString(date); // convert date object to string
      
