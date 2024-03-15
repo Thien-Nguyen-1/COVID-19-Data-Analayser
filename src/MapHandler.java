@@ -94,7 +94,7 @@ public class MapHandler extends Pane
             offer("Enfield");
             offer("Barnet"); offer("Haringey"); offer("Waltham Forest");
             offer("Harrow");  offer("Brent"); offer("Camden"); offer("Islington"); offer("Hackney"); offer("Redbridge"); offer("Havering");
-            offer("Hillingdon"); offer("Ealing");  offer("Kensington And Chelsea"); offer("Westminster"); offer("Tower Hamlets");  offer("Newham");  offer("Barking And Dagernham");
+            offer("Hillingdon"); offer("Ealing");  offer("Kensington And Chelsea"); offer("Westminster"); offer("Tower Hamlets");  offer("Newham");  offer("Barking And Dagenham");
             offer("Hounslow");  offer("Hammersmith And Fulham");  offer("Wandsworth"); offer("City Of London"); offer("Greenwich"); offer("Bexley");
             offer("Richmond Upon Thames"); offer("Merton");  offer("Lambeth"); offer("Southwark"); offer("Lewisham");
             offer("Kingston Upon Thames"); offer("Sutton"); offer("Croydon"); offer("Bromley");
