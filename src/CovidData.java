@@ -1,3 +1,5 @@
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
  
 
 /**
@@ -135,4 +137,5 @@ public class CovidData {
         ", totalDeaths=" + totalDeaths + 
         "}";
     }
+ 
 }
