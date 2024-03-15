@@ -41,6 +41,7 @@ public class StatisticsPane extends BorderPane
     String[] statisticLabels;
     int[] statistics;
     
+    
     //create variable to store currently displayed stat index
     private int statIndex = 0;
     
@@ -96,6 +97,10 @@ public class StatisticsPane extends BorderPane
         
         //Create the array containing stastics labels 
         this.statisticLabels = setUpLabelArray();
+        
+        //Preventing null pointer exceptions by creating initial statistics array full of zeros
+        this.statistics = setupInitialStats();
+        
     }
 
     /**
@@ -186,6 +191,18 @@ public class StatisticsPane extends BorderPane
         return statisticLabels;
     }
     
+    private int[] setupInitialStats(){
+        int[] temp;
+        temp = new int[4];
+        //add zeros
+        temp[0] = 0;
+        temp[1] = 0;
+        temp[2] = 0;
+        temp[3] = 0;
+        
+        return temp;
+    }
+    
     //This method updates the statistics window to show values of the arrays
     private void showStatistics(){
         statMeasure.setText(statisticLabels[statIndex]);
@@ -204,6 +221,7 @@ public class StatisticsPane extends BorderPane
     public void updateDates(LocalDate[] startEndDates){
         this.startDate = startEndDates[0];
         this.endDate = startEndDates[1];
+        this.statistics = setupInitialStats();
         this.statistics = calculateStatistics(records);
         showStatistics();
     }
