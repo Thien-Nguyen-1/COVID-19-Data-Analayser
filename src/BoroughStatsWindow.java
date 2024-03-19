@@ -25,13 +25,16 @@ import javafx.beans.value.ChangeListener;
  */
 public class BoroughStatsWindow
 {
+    
+    private Stage boroughWindow;
+    private Scene scene;
 
     public void openWindow(String boroughName, ArrayList<CovidData> boroughData)
     {
         TableView<CovidData> table = new TableView<>();
-        Stage boroughWindow = new Stage();
+        boroughWindow = new Stage();
         VBox vbox = new VBox();
-        Scene scene = new Scene(vbox);
+        scene = new Scene(vbox);
         
         // defiining size of window
         boroughWindow.setWidth(500);
@@ -139,9 +142,13 @@ public class BoroughStatsWindow
             }
         });
 
-        
         boroughWindow.setScene(scene);
         // Show the Stage (window)
         boroughWindow.show();
+    }
+    
+    public void setSceneNull(){
+        boroughWindow.hide();
+        boroughWindow = null;
     }
 }
