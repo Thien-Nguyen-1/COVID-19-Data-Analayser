@@ -150,5 +150,8 @@ public class LocShape
         return shape;
     }
 
-    
+    public void openStatsWindow(){
+        BoroughStatsWindow window = new BoroughStatsWindow();
+        window.openWindow(name, allData);
+    }
 }

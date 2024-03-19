@@ -99,7 +99,7 @@ public class DateSelector
             fromDatePicker.setValue(null);
             fromDate = null;
             return;
-        } else if (toDate != null && date.isAfter(toDate)) {
+        } else if (fromDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
             ps.disableButtons();
             fromDatePicker.setValue(null);

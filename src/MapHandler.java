@@ -190,9 +190,7 @@ public class MapHandler extends Pane
         for(LocShape borough: allBoroughs){
             hit = borough.checkInBounds(mouseLoc);
             if(hit){
-                
-                
-                
+                borough.openStatsWindow();
                 break;
             }
         }
