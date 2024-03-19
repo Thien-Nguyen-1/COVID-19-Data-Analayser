@@ -8,12 +8,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import java.util.HashMap;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Priority;
+import javafx.beans.value.ChangeListener;
 
 /**
  * Write a description of JavaFX class BoroughStatsWindow here.
@@ -113,6 +115,29 @@ public class BoroughStatsWindow
         vbox.setVgrow(table, Priority.ALWAYS);
         vbox.getChildren().addAll(label, table);
         
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double newWidth = newValue.doubleValue();
+                dateCol.setPrefWidth(newWidth/12); // Adjust column width based on the available width
+                gmCol.setPrefWidth(newWidth * (7/12)); // Adjust column width based on the available width
+                casesCol.setPrefWidth(newWidth / 6);
+                deathsCol.setPrefWidth(newWidth / 6);
+                
+                retailRecCol.setPrefWidth(newWidth/8);
+                groceryPharmacyCol.setPrefWidth(newWidth/8);
+                parksCol.setPrefWidth(newWidth/12);
+                transitCol.setPrefWidth(newWidth/12);
+                workplacesCol.setPrefWidth(newWidth/12);
+                residentialCol.setPrefWidth(newWidth/12);
+                
+                newCasesCol.setPrefWidth(newWidth/12);
+                totalCasesCol.setPrefWidth(newWidth/12);
+                
+                newDeathsCol.setPrefWidth(newWidth/12);
+                totalDeathsCol.setPrefWidth(newWidth/12);
+            }
+        });
 
         
         boroughWindow.setScene(scene);
