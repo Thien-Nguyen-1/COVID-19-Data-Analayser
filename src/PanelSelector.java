@@ -101,7 +101,14 @@ public class PanelSelector
     }
     
     public void updateStatisticsPane(LocalDate[] firstLastDates){
-        
+        for(int i=0; i<paneList.length;i++){
+            //check for if current pane is map
+            if(paneList[i] instanceof StatisticsPane){
+                StatisticsPane temp = (StatisticsPane) paneList[i];
+                temp.updateDates(firstLastDates);
+                break;
+            }
+        }
     }
     
     public void goToNextPanel(Event event) {
@@ -131,23 +138,17 @@ public class PanelSelector
     
     private void setPaneListener(){
         root.widthProperty().addListener((e) ->{
-          
             for(int i=0; i<paneList.length;i++){
-                
                 //check for if current pane is map
                 if(paneList[i] instanceof MapHandler){
                     if(currentPane.getWidth() != 0){
-                         MapHandler temp = (MapHandler) paneList[i];
+                        MapHandler temp = (MapHandler) paneList[i];
                         temp.redrawMap((int)currentPane.getWidth());
                         break;
-                        
                     }
                 }
-                
-                //add other pane modifications here:
             }
-            
-        }); 
+        } );
     }
     
     public void displayPane() {

@@ -44,7 +44,8 @@ public class StatisticsPane extends BorderPane
     private int statIndex = 0;
     
     //Store date range variables
-    
+    LocalDate startDate;
+    LocalDate endDate;
     
     /**
      * The start method is the main entry point for every JavaFX application. 
@@ -93,8 +94,11 @@ public class StatisticsPane extends BorderPane
         backButton.setMaxWidth(30);
         
         //Create statistics and stastics labels 
-        statistics = calculateStatistics(records);
-        statisticLabels = setUpLabelArray();
+        this.statisticLabels = setUpLabelArray();
+        
+        //Preventing null pointer exceptions by creating initial statistics array full of zeros
+        this.statistics = setupInitialStats();
+        
         
         // Setup stage to show first stat
         statMeasure.setText(statisticLabels[statIndex]);
@@ -115,9 +119,7 @@ public class StatisticsPane extends BorderPane
             statIndex += 1;
         }
         
-        statMeasure.setText(statisticLabels[statIndex]);
-        statistic.setText(Integer.toString(statistics[statIndex]));
-        
+        showStatistics();
     }
     
     private void backButtonClick(ActionEvent event)
@@ -147,16 +149,17 @@ public class StatisticsPane extends BorderPane
 
         //Calculating the statistics
         for (CovidData data : covidDataList) {
-            numberOfRecords += 1;
+            if(dateinRange(LocalDate.parse(data.getDate()))){
+                numberOfRecords += 1;
 
-            //Incrementing values to total number of deaths
-            totalNumberOfDeaths += data.getNewDeaths();
+                //Incrementing values to total number of deaths
+                totalNumberOfDeaths += data.getNewDeaths();
             
-            //Incrementing each records data to get a total so that an average can be found after. 
-            totalRetailGMR += data.getRetailRecreationGMR();
-            totalWorkplacesGMR += data.getWorkplacesGMR();
-            averageTotalCases += data.getTotalCases();
-            
+                //Incrementing each records data to get a total so that an average can be found after. 
+                totalRetailGMR += data.getRetailRecreationGMR();
+                totalWorkplacesGMR += data.getWorkplacesGMR();
+                averageTotalCases += data.getTotalCases();
+            }    
         }
 
         //dividing by number of records to obtain an average
@@ -185,9 +188,37 @@ public class StatisticsPane extends BorderPane
         return statisticLabels;
     }
     
+    private int[] setupInitialStats(){
+        int[] temp;
+        temp = new int[4];
+        //add zeros
+        temp[0] = 0;
+        temp[1] = 0;
+        temp[2] = 0;
+        temp[3] = 0;
+        
+        return temp;
+    }
+    
+    //This method updates the statistics window to show values of the arrays
+    private void showStatistics(){
+        statMeasure.setText(statisticLabels[statIndex]);
+        statistic.setText(Integer.toString(statistics[statIndex]));
+    }
+
     //return testDate.after(startDate) && testDate.before(endDate);
-    private boolean inRange(LocalDate checkDate, LocalDate start, LocalDate end){
-        boolean inRange = checkDate.isAfter(start) && checkDate.isBefore(end);
+    private boolean dateinRange(LocalDate checkDate){
+        if (startDate == null || endDate == null) {
+            return false;
+        }
+        boolean inRange = checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
         return inRange;
     }
-} 
+
+    public void updateDates(LocalDate[] startEndDates){
+        this.startDate = startEndDates[0];
+        this.endDate = startEndDates[1];
+        this.statistics = calculateStatistics(records);
+        showStatistics();
+    }
+}
