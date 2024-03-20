@@ -6,6 +6,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import java.time.LocalDate;
 import java.util.TreeSet;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
+import javafx.scene.layout.StackPane;
 
 
 public class MapHandler extends Pane
@@ -20,6 +24,8 @@ public class MapHandler extends Pane
     private LocalDate[] startEndDates;
     
     private double widthPane, heightPane;
+    
+    private ImageView keyView;
     
     
     public MapHandler(double widthPane, double heightPane){
@@ -38,6 +44,9 @@ public class MapHandler extends Pane
         allData = covidLoader.load();
         drawMap();
         drawNames();
+        drawKey();
+        
+        
         
     }
     
@@ -151,6 +160,16 @@ public class MapHandler extends Pane
        
     }
     
+  public void drawKey() {
+        Image key = new Image("phonto 7.png");
+        ImageView keyView = new ImageView(key);
+        keyView.setFitHeight(250);
+        keyView.setFitWidth(250);
+        StackPane.setAlignment(keyView, Pos.TOP_LEFT);
+        this.getChildren().add(keyView);
+    }
+
+    
     /*method called when window is re-sized*/
      public void redrawMap(int newXSize){
         this.getChildren().clear();
@@ -158,6 +177,7 @@ public class MapHandler extends Pane
         setUpBoroughs();
         drawMap();
         drawNames();
+        drawKey();
         
         addDates(startEndDates);
     }
