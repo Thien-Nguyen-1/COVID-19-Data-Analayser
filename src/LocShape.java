@@ -1,11 +1,6 @@
-//
 import javafx.scene.shape.Polygon;
 import java.util.ArrayList;
 import javafx.scene.paint.Color; 
-//import java.awt.Point;
-
-
-
 
 
 public class LocShape
@@ -19,7 +14,6 @@ public class LocShape
     private final double xOffset = 40; //should be halved when reach a corner
     private final double yOffset = 60;
     
-   
     private Color shapeColor;
     
     public enum DeathRateColour{
@@ -53,8 +47,11 @@ public class LocShape
     public ArrayList<CovidData> getData(){
         return allData;
     }
-    
-    
+    /*method to get the shape colour*/
+    public Color getColour(){
+        return shapeColor;
+    }
+        
     public void resetData(){
         allData.clear();
     }
@@ -62,7 +59,7 @@ public class LocShape
     /*method to determine the colour of the button based on list of covid data and total no. of deaths*/
     public void determineColour(){
     
-      int boroughDeaths = allData.stream().mapToInt(obj -> obj.getTotalDeaths()).sum();
+     int boroughDeaths = allData.stream().mapToInt(obj -> obj.getTotalDeaths()).sum();
      
       if(boroughDeaths <= 2500) {
           shapeColor = DeathRateColour.GREEN.color;
@@ -121,14 +118,23 @@ public class LocShape
     }
     
     public void printBounds(){
+        if(allPoints.size() > 0){
         for(Point point: allPoints){
             System.out.println("x:"  + point.x + " y:" + point.y);
+        }
+        }
+        else {
+            System.out.println("allPoints is empty, cannot print");
         }
     }
     
     public boolean checkInBounds(Point mousePoint){    
         
         int noOfIntersections = 0;
+        
+        if(allPoints.size() == 0){
+            return false;
+        }
         
         for(int i=0; i<=allPoints.size() - 1; i++){
             //obtain the line from the two points
