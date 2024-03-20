@@ -47,7 +47,7 @@ public class WelcomePage extends StackPane {
         additionalParagraph2.setWrapText(true); // Enable text wrapping
 
         // Additional Paragraph Below Additional Paragraph 2
-        Label additionalParagraph3 = new Label("The fourth slide contains detailed statistical breakdowns by country, including total cases, deaths, recoveries, and more. Use this slide to analyze COVID-19 data on a global scale.");
+        Label additionalParagraph3 = new Label("To get started, please select a valid start and end date.");
         additionalParagraph3.setFont(Font.font("Arial", 20));
         additionalParagraph3.setWrapText(true); // Enable text wrapping
 
