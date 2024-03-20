@@ -1,3 +1,7 @@
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+ 
+
 /**
  * Represents one record in the COVID dataset.
  * This is essentially one row in the data table. Each column
@@ -133,4 +137,5 @@ public class CovidData {
         ", totalDeaths=" + totalDeaths + 
         "}";
     }
+ 
 }

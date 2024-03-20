@@ -13,6 +13,7 @@ public class MapHandler extends Pane
      
     private ArrayList<LocShape> allBoroughs;
     private ArrayList<CovidData> allData;
+    private ArrayList<BoroughStatsWindow> allWindows;
     private final int xSep = 80, ySep = 60, offset = 4; //units in pixel
     private Queue<String> allBoroughNames;
     private CovidDataLoader covidLoader;
@@ -30,6 +31,7 @@ public class MapHandler extends Pane
         
         covidLoader = new CovidDataLoader();
         allBoroughs = new ArrayList<LocShape>();
+        allWindows = new ArrayList<BoroughStatsWindow>();
         setUpHandlers();
         setUpBoroughs();
         
@@ -40,14 +42,18 @@ public class MapHandler extends Pane
     }
     
     public void addDates(LocalDate[] startEndDates){
+        
+        
+        allWindows.forEach((e)->{e.setSceneNull();});
+        allWindows.clear();
+        
         this.startEndDates = startEndDates;
         TreeSet<Integer> orderedValues = new TreeSet<>();
         HashMap<String, ArrayList<CovidData>> extractedData = covidLoader.getDataDateRange(allData, startEndDates);
-       
+         
         int total= extractedData.values().stream().flatMap(ArrayList::stream).mapToInt(CovidData::getTotalDeaths).reduce(0, Integer::sum);   
        
-         System.out.println("Changing colours");
-        
+        System.out.println("Changing colours");
            
         if(!allBoroughs.isEmpty()){
           
@@ -63,12 +69,10 @@ public class MapHandler extends Pane
                                borough.addData(datum);
                           }
                      }
-                    
                  }
                  
-                 
                 borough.determineColour();
-                 
+    
             
             }
             
@@ -159,6 +163,7 @@ public class MapHandler extends Pane
     }
     
     private void setBoroughObj(int noItems, int xStart, int yStart){
+       
         for(int i=0; i<noItems;i++){
             String name = allBoroughNames.poll();
             allBoroughs.add(new LocShape(name,xStart,yStart));
@@ -191,7 +196,10 @@ public class MapHandler extends Pane
             hit = borough.checkInBounds(mouseLoc);
             if(hit){
                 
-                
+                ArrayList<CovidData> boroughData = borough.getData();
+                BoroughStatsWindow window = new BoroughStatsWindow();
+                window.openWindow(borough.getName(), boroughData);
+                allWindows.add(window);
                 
                 break;
             }

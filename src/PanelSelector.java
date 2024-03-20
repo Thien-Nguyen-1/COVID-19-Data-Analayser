@@ -101,10 +101,12 @@ public class PanelSelector
     }
     
     public void updateStatisticsPane(LocalDate[] firstLastDates){
-        for(int i= 0; i<paneList.length; i++){ 
-            if (paneList[i] instanceof StatisticsPane){
+        for(int i=0; i<paneList.length;i++){
+            //check for if current pane is map
+            if(paneList[i] instanceof StatisticsPane){
                 StatisticsPane temp = (StatisticsPane) paneList[i];
                 temp.updateDates(firstLastDates);
+                break;
             }
         }
     }
@@ -145,9 +147,8 @@ public class PanelSelector
                         break;
                     }
                 }
-                //add other pane modifications here:
             }
-        }); 
+        } );
     }
     
     public void displayPane() {

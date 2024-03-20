@@ -1,6 +1,4 @@
 import javafx.geometry.Insets;
-
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.DatePicker;
@@ -42,7 +40,7 @@ public class DateSelector
     public DateSelector(PanelSelector ps) {
         toLabel = new Label("To:");
         fromLabel = new Label("From");
-        firstDate = LocalDate.of(2020, 1, 1);
+        firstDate = LocalDate.of(2020, 2, 3);
         lastDate  = LocalDate.of(2023, 10, 15);
         this.ps = ps;
     }
@@ -101,7 +99,7 @@ public class DateSelector
             fromDatePicker.setValue(null);
             fromDate = null;
             return;
-        } else if (toDate != null && date.isAfter(toDate)) {
+        } else if (fromDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
             ps.disableButtons();
             fromDatePicker.setValue(null);
@@ -141,6 +139,7 @@ public class DateSelector
             ps.enableButtons();
             ps.updateDateMap(getFirstLastDate()); //returns the date interval
             ps.updateStatisticsPane(getFirstLastDate());
+            ps.updateStatisticsPane(getFirstLastDate());
         }
         stringDate = dateToString(date); // convert date object to string
      
@@ -168,7 +167,7 @@ public class DateSelector
     }
     
     public boolean isDateRangeValid() {
+        
         return fromDate != null && toDate != null;
     }
 }
-

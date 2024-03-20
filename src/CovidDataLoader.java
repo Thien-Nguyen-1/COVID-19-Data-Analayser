@@ -9,6 +9,7 @@ import com.opencsv.CSVReader;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.time.LocalDate;
+import java.util.Collections;
 
 public class CovidDataLoader {
  
@@ -52,6 +53,7 @@ public class CovidDataLoader {
             e.printStackTrace();
         }
         System.out.println("Number of Loaded Records: " + records.size());
+        Collections.sort(records, new CDDateComparator()); // sorts the covid data by date
         return records;
     }
 

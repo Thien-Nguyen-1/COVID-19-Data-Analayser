@@ -15,7 +15,6 @@ import javafx.geometry.Pos;
 
 //Imports for class functionality
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +39,6 @@ public class StatisticsPane extends BorderPane
     
     String[] statisticLabels;
     int[] statistics;
-    
     
     //create variable to store currently displayed stat index
     private int statIndex = 0;
@@ -95,12 +93,16 @@ public class StatisticsPane extends BorderPane
         forwardButton.setMaxWidth(30);
         backButton.setMaxWidth(30);
         
-        //Create the array containing stastics labels 
+        //Create statistics and stastics labels 
         this.statisticLabels = setUpLabelArray();
         
         //Preventing null pointer exceptions by creating initial statistics array full of zeros
         this.statistics = setupInitialStats();
         
+        
+        // Setup stage to show first stat
+        statMeasure.setText(statisticLabels[statIndex]);
+        statistic.setText(Integer.toString(statistics[statIndex]));
     }
 
     /**
@@ -118,7 +120,6 @@ public class StatisticsPane extends BorderPane
         }
         
         showStatistics();
-        
     }
     
     private void backButtonClick(ActionEvent event)
@@ -148,10 +149,7 @@ public class StatisticsPane extends BorderPane
 
         //Calculating the statistics
         for (CovidData data : covidDataList) {
-            System.out.println(data.getDate());
-            LocalDate checkDate = LocalDate.parse(data.getDate());
-
-            if(dateinRange(checkDate)){
+            if(dateinRange(LocalDate.parse(data.getDate()))){
                 numberOfRecords += 1;
 
                 //Incrementing values to total number of deaths
@@ -163,8 +161,7 @@ public class StatisticsPane extends BorderPane
                 averageTotalCases += data.getTotalCases();
             }    
         }
-        
-        
+
         //dividing by number of records to obtain an average
         int averageRetailGMR = totalRetailGMR / numberOfRecords;
         int averageWorkplacesGMR = totalWorkplacesGMR / numberOfRecords;
@@ -208,21 +205,20 @@ public class StatisticsPane extends BorderPane
         statMeasure.setText(statisticLabels[statIndex]);
         statistic.setText(Integer.toString(statistics[statIndex]));
     }
-    
-    
+
     //return testDate.after(startDate) && testDate.before(endDate);
     private boolean dateinRange(LocalDate checkDate){
-        if (checkDate == null || this.startDate == null || this.endDate == null) {
-            return false; // Handle null values gracefully
+        if (startDate == null || endDate == null) {
+            return false;
         }
-        return checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
+        boolean inRange = checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
+        return inRange;
     }
-    
+
     public void updateDates(LocalDate[] startEndDates){
         this.startDate = startEndDates[0];
         this.endDate = startEndDates[1];
-        this.statistics = setupInitialStats();
         this.statistics = calculateStatistics(records);
         showStatistics();
     }
-} 
+}

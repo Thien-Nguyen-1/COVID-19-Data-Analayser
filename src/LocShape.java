@@ -49,6 +49,12 @@ public class LocShape
         allData.add(dataToAdd);
     }
     
+    /*method to get all the covid data*/
+    public ArrayList<CovidData> getData(){
+        return allData;
+    }
+    
+    
     public void resetData(){
         allData.clear();
     }
@@ -149,6 +155,4 @@ public class LocShape
     public Polygon getShape(){
         return shape;
     }
-
-    
 }
