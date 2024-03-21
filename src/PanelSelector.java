@@ -150,6 +150,22 @@ public class PanelSelector
         }
     }
     
+
+    /**
+     * This method is called through the date selector class to update graph pane
+     * when there is a change in the first or last date.
+     */
+    public void updateGraphData(LocalDate[] firstLastDates){
+        for(int i=0; i<paneList.length;i++){
+            //check for if current pane is map
+            if(paneList[i] instanceof GraphPane){
+                GraphPane gp = (GraphPane) paneList[i];
+                gp.setDateRange(firstLastDates);
+                break;
+            }
+        }
+    }
+
     /**
      * The following method allows the user to go forward through the paneList, 
      * rotating back to the index 0 after the max index.
@@ -193,6 +209,10 @@ public class PanelSelector
                 if(currPane instanceof MapHandler){ //re-centering UI elements in MapHandler pane
                     MapHandler tempPane = (MapHandler) currPane;
                     tempPane.redrawMap((int)width);
+                }
+                if(currPane instanceof GraphPane){ //re-centering UI elements in MapHandler pane
+                    GraphPane gp = (GraphPane) currPane;
+                    gp.resizeGraph((int) width, (int) height);
                 }
             }
         }
