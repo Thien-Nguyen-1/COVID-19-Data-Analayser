@@ -23,6 +23,7 @@ public class Frame extends Application {
         stage.setMinWidth(1080);
         stage.setMinHeight(720);
         
+        createHandlers(stage);
         
         BorderPane root = new BorderPane();
         
@@ -52,6 +53,16 @@ public class Frame extends Application {
         stage.setTitle("Covid Data Viewer");
         stage.setScene(scene);
         stage.show();
+        
+    }
+    
+    
+    /*adds listeners to stage to check if width property is changed.*/
+    private void createHandlers(Stage stage){
+        
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+             paneSelector.resizeUI(stage.getWidth(), stage.getHeight());
+        });
         
     }
 }

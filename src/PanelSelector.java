@@ -31,7 +31,7 @@ public class PanelSelector
     
     public PanelSelector(BorderPane root) {
         this.root = root;
-        paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720)}; //change Panes for 1st and 3rd 
+        paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720), new GraphPane(1080,720)}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
  
         // creating left and right buttons to move between panels
@@ -45,7 +45,6 @@ public class PanelSelector
         
         // Disabling the button before date selection
         this.disableButtons();
-        setPaneListener();
     }
     
     public HBox createBottomPart()
@@ -136,19 +135,18 @@ public class PanelSelector
         displayPane();
     }
     
-    private void setPaneListener(){
-        root.widthProperty().addListener((e) ->{
-            for(int i=0; i<paneList.length;i++){
-                //check for if current pane is map
-                if(paneList[i] instanceof MapHandler){
-                    if(currentPane.getWidth() != 0){
-                        MapHandler temp = (MapHandler) paneList[i];
-                        temp.redrawMap((int)currentPane.getWidth());
-                        break;
-                    }
+    /*resizes any UI elements in different panes based on stage's width and height (parameters)*/
+    public void resizeUI(double width, double height){
+        if(paneList.length >0 ){
+            for(Pane currPane: paneList){
+                
+                if(currPane instanceof MapHandler){ //re-centering UI elements in MapHandler pane
+                    MapHandler tempPane = (MapHandler) currPane;
+                    tempPane.redrawMap((int)width);
                 }
+                
             }
-        } );
+        }
     }
     
     public void displayPane() {
