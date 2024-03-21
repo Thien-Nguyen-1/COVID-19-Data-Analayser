@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 
+
 /**
  * Write a description of JavaFX class CovidViewer here.
  *
@@ -48,6 +49,9 @@ public class DateSelector
     public HBox createTopPart() {
         fromDatePicker = new DatePicker();
         toDatePicker = new DatePicker();
+        
+        fromDatePicker.setEditable(false);
+        toDatePicker.setEditable(false);
         
         fromDatePicker.setOnAction(this :: chooseFromDate);
         toDatePicker.setOnAction(this :: chooseToDate);
@@ -91,6 +95,10 @@ public class DateSelector
     private void chooseFromDate(Event event)
     {
         LocalDate date = fromDatePicker.getValue();
+        
+        if(date == null){
+            return;
+        }
         System.out.println(date.toString() + " is the current date");
         
         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
@@ -119,8 +127,12 @@ public class DateSelector
     private void chooseToDate(Event event)
     {
         LocalDate date = toDatePicker.getValue();
-     
-        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
+        if(date == null){
+            return;
+        }
+        
+        
+         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
             displayErrorMessage("No data from this date");
             ps.disableButtons();
             toDatePicker.setValue(null);
