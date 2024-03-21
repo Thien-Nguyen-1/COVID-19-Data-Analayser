@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 
+
 /**
  * Write a description of JavaFX class CovidViewer here.
  *
@@ -48,6 +49,9 @@ public class DateSelector
     public HBox createTopPart() {
         fromDatePicker = new DatePicker();
         toDatePicker = new DatePicker();
+        
+        fromDatePicker.setEditable(false);
+        toDatePicker.setEditable(false);
         
         fromDatePicker.setOnAction(this :: chooseFromDate);
         toDatePicker.setOnAction(this :: chooseToDate);
@@ -91,15 +95,13 @@ public class DateSelector
     private void chooseFromDate(Event event)
     {
         LocalDate date = fromDatePicker.getValue();
+        
+        if(date == null){
+            return;
+        }
         System.out.println(date.toString() + " is the current date");
         
-        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
-            displayErrorMessage("No data from this date");
-            ps.disableButtons();
-            fromDatePicker.setValue(null);
-            fromDate = null;
-            return;
-        } else if (fromDate != null && date.isAfter(toDate)) {
+        if (fromDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
             ps.disableButtons();
             fromDatePicker.setValue(null);
@@ -119,14 +121,11 @@ public class DateSelector
     private void chooseToDate(Event event)
     {
         LocalDate date = toDatePicker.getValue();
-     
-        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
-            displayErrorMessage("No data from this date");
-            ps.disableButtons();
-            toDatePicker.setValue(null);
-            toDate = null;
+        if(date == null){
             return;
-        } else if (fromDate != null && date.isBefore(fromDate)) {
+        }
+        
+         if (fromDate != null && date.isBefore(fromDate)) {
             displayErrorMessage("End date cannot be before start date");
             ps.disableButtons();
             toDatePicker.setValue(null);
