@@ -43,8 +43,6 @@ public class GraphPane extends Pane
        vbox.setAlignment(Pos.CENTER);
        covidDataLoader = new CovidDataLoader();
        allCovidData = covidDataLoader.load();
-       //List<String> categoryList = allCovidData.stream().map(obj -> obj.getDate()).toList();
-       //ObservableList<String> categories = FXCollections.observableArrayList(categoryList);
        
        this.widthPane = widthPane;
        this.heightPane = heightPane;
@@ -81,15 +79,10 @@ public class GraphPane extends Pane
         xAxis.setTickLabelRotation(45);
         lineChart = new LineChart<String,Number>(xAxis,yAxis);
         lineChart.setTitle("Covid Data");
-        lineChart.setPrefSize(1000,580);
+        lineChart.setPrefSize(graphWidth,graphHeight);
         
-        //double xOffset = (widthPane - lineChart.getPrefWidth()) / 2;
-        //double yOffset = (heightPane - lineChart.getPrefHeight()) / 2;
-        //lineChart.setLayoutX(100);
-        //lineChart.setLayoutY(100);
-        //lineChart.setCenterShape(true);
         vbox.getChildren().add(lineChart);
-        vbox.setVgrow(lineChart, Priority.ALWAYS);
+        //vbox.setVgrow(lineChart, Priority.ALWAYS);
     }
     
     private void handleDataTypeSelection() {
@@ -142,7 +135,6 @@ public class GraphPane extends Pane
         xAxis.getCategories().addAll(data.keySet());
         
         
-        
         XYChart.Series series = new XYChart.Series();
         series.setName(seriesName);
         //populating the series with data
@@ -158,7 +150,6 @@ public class GraphPane extends Pane
         this.dateRange = dateRange;
         vbox.getChildren().remove(lineChart);
         createLineChart();
-        //lineChart.getData().clear();
         handleDataTypeSelection();
     }
 
@@ -183,10 +174,9 @@ public class GraphPane extends Pane
     }
     
     public void resizeGraph(int width, int height) {
-        graphHeight = width - 50;
-        graphWidth = height - 175;
-        lineChart.setPrefWidth(graphHeight);
-        lineChart.setPrefHeight(graphWidth);
+        graphHeight = height - 175;
+        graphWidth = width - 50;
+        lineChart.setPrefSize(graphWidth, graphHeight);
     }
     
     // is date less than or equal to other date
