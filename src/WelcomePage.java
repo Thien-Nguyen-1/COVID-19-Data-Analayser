@@ -25,7 +25,8 @@ public class WelcomePage extends StackPane {
 
         // Adding padding to center the VBox
         welcomeMessages.setPadding(new Insets(100, 0, 0, 0)); // Adjust top padding as needed
-
+        
+        
         // Middle Text
         Label middleText = new Label("The application consists of three main slides, accessible through the navigation buttons provided.");
         middleText.setFont(Font.font("Calibri", 20));
@@ -80,6 +81,8 @@ public class WelcomePage extends StackPane {
         VBox textContainer = new VBox(20); // Spacing between nodes
         textContainer.getChildren().addAll(middleText, additionalTextContainer);
         textContainer.setAlignment(Pos.CENTER); // Aligning the textContainer
+        textContainer.setPadding(new Insets(0, 70, 0, 70)); // Adjust left and right padding as needed
+
 
         // StackPane to overlay the textContainer on top of the welcome messages
         //StackPane stackPane = new StackPane();
