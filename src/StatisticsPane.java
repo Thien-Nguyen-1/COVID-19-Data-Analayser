@@ -104,12 +104,14 @@ public class StatisticsPane extends BorderPane
         statMeasure.setText(statisticLabels[statIndex]);
         statistic.setText(Integer.toString(statistics[statIndex]));
     }
-
+    
+    //Setting up the buttons
     /**
-     * This will be executed when the button is clicked
-     * It increments the count by 1
+     * The forward button function will be executed when the button is clicked
+     * It increments the count by 1 and rotates it back to 0 when the index 
+     * being added to is 3.
      */
-
+    
     private void forwardButtonClick(ActionEvent event)
     {
         if (statIndex == 3){
@@ -122,6 +124,11 @@ public class StatisticsPane extends BorderPane
         showStatistics();
     }
     
+    /**
+     * The forward button function will be executed when the button is clicked
+     * It increments the count by 1 and rotates it back to 0 when the index 
+     * being added to is 3.
+     */
     private void backButtonClick(ActionEvent event)
     {
         if (statIndex == 0){
@@ -135,10 +142,15 @@ public class StatisticsPane extends BorderPane
         statistic.setText(Integer.toString(statistics[statIndex]));
     }
 
+    //Setting up core functionality
+    /**
+     * This function will calculate the relevant statistics in the date range 
+     * and return an array of integers containing the statistics.
+     */
     private int[] calculateStatistics(ArrayList<CovidData> covidDataList){
         //initialising collection holding all stats
         int[] calculatedStats;
-        calculatedStats = new int[5];
+        calculatedStats = new int[4];
 
         //initialising holders for relevant statistics
         int totalRetailGMR = 0;
@@ -175,6 +187,47 @@ public class StatisticsPane extends BorderPane
         return calculatedStats;
     }
     
+    /**
+     * Updates the labels on the pane to show the statistics label and relevant
+     * statistic using the current statIndex.
+     */
+    private void showStatistics(){
+        statMeasure.setText(statisticLabels[statIndex]);
+        statistic.setText(Integer.toString(statistics[statIndex]));
+    }
+
+    /**
+     * This function will check if a provided date is within the date range
+     * of the first and last date attributes.
+     */
+    private boolean dateinRange(LocalDate checkDate){
+        if (startDate == null || endDate == null) {
+            return false;
+        }
+        boolean inRange = checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
+        return inRange;
+    }
+    
+    /**
+     * updateDates() is called whenever there is a date change and is called 
+     * in the dateSelector class through a panel selector object. 
+     * 
+     * Updates the start and end date attributes. Then proceeds to update the
+     * statistics array and show the data.
+     */
+    public void updateDates(LocalDate[] startEndDates){
+        this.startDate = startEndDates[0];
+        this.endDate = startEndDates[1];
+        this.statistics = calculateStatistics(records);
+        showStatistics();
+    }
+    
+    
+    // Functions used to improve readability of code.
+    /**
+     * The setUpLabelArray function will return a array of the names of the 
+     * statistics that are to be shown to a user. 
+     */
     private String[] setUpLabelArray(){
         String[] statisticLabels;
         statisticLabels = new String[4];
@@ -188,6 +241,10 @@ public class StatisticsPane extends BorderPane
         return statisticLabels;
     }
     
+    /**
+     * This function is used to setup a initial stats array containing only 0s
+     * in the class constructor.
+     */
     private int[] setupInitialStats(){
         int[] temp;
         temp = new int[4];
@@ -198,27 +255,5 @@ public class StatisticsPane extends BorderPane
         temp[3] = 0;
         
         return temp;
-    }
-    
-    //This method updates the statistics window to show values of the arrays
-    private void showStatistics(){
-        statMeasure.setText(statisticLabels[statIndex]);
-        statistic.setText(Integer.toString(statistics[statIndex]));
-    }
-
-    //return testDate.after(startDate) && testDate.before(endDate);
-    private boolean dateinRange(LocalDate checkDate){
-        if (startDate == null || endDate == null) {
-            return false;
-        }
-        boolean inRange = checkDate.isAfter(this.startDate) && checkDate.isBefore(this.endDate);
-        return inRange;
-    }
-
-    public void updateDates(LocalDate[] startEndDates){
-        this.startDate = startEndDates[0];
-        this.endDate = startEndDates[1];
-        this.statistics = calculateStatistics(records);
-        showStatistics();
     }
 }
