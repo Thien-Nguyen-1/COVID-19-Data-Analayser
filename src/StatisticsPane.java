@@ -3,6 +3,8 @@
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Alert;
+
 //Components
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,6 +46,7 @@ public class StatisticsPane extends BorderPane
     
     //create variable to store currently displayed stat index
     private int statIndex = 0;
+    private boolean noRecordsInRange;
     
     //Store date range variables
     LocalDate startDate;
@@ -176,16 +179,24 @@ public class StatisticsPane extends BorderPane
             }    
         }
 
-        //dividing by number of records to obtain an average
-        int averageRetailGMR = totalRetailGMR / numberOfRecords;
-        int averageWorkplacesGMR = totalWorkplacesGMR / numberOfRecords;
-        averageTotalCases = covidDataList.size();
-        
-        calculatedStats[0] = averageRetailGMR;
-        calculatedStats[1] = averageWorkplacesGMR;
-        calculatedStats[2] = totalNumberOfDeaths;
-        calculatedStats[3] = averageTotalCases / numberOfRecords;
-
+        if (numberOfRecords != 0){
+            //establish that there are records in the date range
+            noRecordsInRange = false;
+            
+            //dividing by number of records to obtain an average
+            int averageRetailGMR = totalRetailGMR / numberOfRecords;
+            int averageWorkplacesGMR = totalWorkplacesGMR / numberOfRecords;
+            averageTotalCases = averageTotalCases / numberOfRecords;
+            
+            //adding each statistic to the array
+            calculatedStats[0] = averageRetailGMR;
+            calculatedStats[1] = averageWorkplacesGMR;
+            calculatedStats[2] = totalNumberOfDeaths;
+            calculatedStats[3] = averageTotalCases / numberOfRecords;
+        }
+        else{
+            noRecordsInRange = true;
+        }
         return calculatedStats;
     }
     
@@ -195,7 +206,15 @@ public class StatisticsPane extends BorderPane
      */
     private void showStatistics(){
         statMeasure.setText(statisticLabels[statIndex]);
-        statistic.setText(Integer.toString(statistics[statIndex]));
+        
+        //check if there are records in the range and decide whether statistics
+        //are applicable
+        if (noRecordsInRange == true){
+            statistic.setText("N/A");
+        }
+        else{
+            statistic.setText(Integer.toString(statistics[statIndex]));
+        }
     }
 
     /**
