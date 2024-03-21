@@ -49,7 +49,7 @@ public class Frame extends Application {
         root.setCenter(middlePart);
         root.setBottom(lowerPart); 
 
-        stage.setTitle("Template Structure");
+        stage.setTitle("Covid Data Viewer");
         stage.setScene(scene);
         stage.show();
         
