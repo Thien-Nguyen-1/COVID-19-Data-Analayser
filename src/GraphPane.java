@@ -17,8 +17,14 @@ import java.time.LocalDate;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Priority;
-//import java.util.HashMap;
 
+/**
+ * The Graph Panel class displays the cumulative data of each borough
+ * in a line chart over the time period selected.
+ *
+ * @author Tawyeeb Soetan
+ * @version 21/03/2024
+ */
 public class GraphPane extends Pane
 {
     

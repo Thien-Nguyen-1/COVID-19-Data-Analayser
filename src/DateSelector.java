@@ -12,10 +12,10 @@ import javafx.scene.control.Alert;
 
 
 /**
- * Write a description of JavaFX class CovidViewer here.
+ * Write a description of class DateSelector here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Tawyeeb Soetan
+ * @version 21/03/2024
  */
 public class DateSelector
 {

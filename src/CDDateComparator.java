@@ -1,10 +1,10 @@
 import java.time.LocalDate;
 
 /**
- * Write a description of class DataComparator here.
+ * A comparator class used to compare the date attributes of 2 covid data classes.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Tawyeeb Soetan
+ * @version 19/03/2023
  */
 public class CDDateComparator implements java.util.Comparator<CovidData>
 {
