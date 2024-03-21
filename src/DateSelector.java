@@ -101,13 +101,7 @@ public class DateSelector
         }
         System.out.println(date.toString() + " is the current date");
         
-        if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
-            displayErrorMessage("No data from this date");
-            ps.disableButtons();
-            fromDatePicker.setValue(null);
-            fromDate = null;
-            return;
-        } else if (fromDate != null && date.isAfter(toDate)) {
+        if (fromDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
             ps.disableButtons();
             fromDatePicker.setValue(null);
@@ -131,14 +125,7 @@ public class DateSelector
             return;
         }
         
-        
-         if (date.isBefore(firstDate) || date.isAfter(lastDate)) {
-            displayErrorMessage("No data from this date");
-            ps.disableButtons();
-            toDatePicker.setValue(null);
-            toDate = null;
-            return;
-        } else if (fromDate != null && date.isBefore(fromDate)) {
+         if (fromDate != null && date.isBefore(fromDate)) {
             displayErrorMessage("End date cannot be before start date");
             ps.disableButtons();
             toDatePicker.setValue(null);
