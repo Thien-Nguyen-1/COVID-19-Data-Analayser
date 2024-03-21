@@ -109,11 +109,12 @@ public class DateSelector
         
         fromDate = date;
         if (isDateRangeValid()) {
+            ps.updateGraphData(getFirstLastDate());
             ps.updateDateMap(getFirstLastDate()); 
             ps.updateStatisticsPane(getFirstLastDate());
             ps.enableButtons();
         }
-        stringDate = dateToString(date);
+        stringDate = dateToString(date); 
     }
     
     private void chooseToDate(Event event)
@@ -137,12 +138,11 @@ public class DateSelector
         toDate = date;
         if (isDateRangeValid()) {
             ps.enableButtons();
+            ps.updateGraphData(getFirstLastDate());
             ps.updateDateMap(getFirstLastDate()); //returns the date interval
-            ps.updateStatisticsPane(getFirstLastDate());
             ps.updateStatisticsPane(getFirstLastDate());
         }
         stringDate = dateToString(date); // convert date object to string
-     
     }
     
     private void displayErrorMessage(String reason) {

@@ -31,7 +31,7 @@ public class PanelSelector
     
     public PanelSelector(BorderPane root) {
         this.root = root;
-        paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720)}; //change Panes for 1st and 3rd 
+        paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720), new GraphPane(1080,720)}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
  
         // creating left and right buttons to move between panels
@@ -106,6 +106,17 @@ public class PanelSelector
             if(paneList[i] instanceof StatisticsPane){
                 StatisticsPane temp = (StatisticsPane) paneList[i];
                 temp.updateDates(firstLastDates);
+                break;
+            }
+        }
+    }
+    
+    public void updateGraphData(LocalDate[] firstLastDates){
+        for(int i=0; i<paneList.length;i++){
+            //check for if current pane is map
+            if(paneList[i] instanceof GraphPane){
+                GraphPane gp = (GraphPane) paneList[i];
+                gp.setDateRange(firstLastDates);
                 break;
             }
         }
