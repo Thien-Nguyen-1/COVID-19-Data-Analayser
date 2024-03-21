@@ -61,13 +61,15 @@ public class GraphPane extends Pane
        dataTypeComboBox.setPromptText("Select Data Type");
        ObservableList<String> dataTypes = FXCollections.observableArrayList("Total Deaths", "Total Cases");
        dataTypeComboBox.setItems(dataTypes);
+       
+       dataTypeComboBox.setValue("Total Deaths");
+       
        dataTypeComboBox.setOnAction(e -> {
         // Call a method to handle the selection change
            handleDataTypeSelection();
        });
        
        vbox.getChildren().add(dataTypeComboBox); 
-       
     }
     
     private void createLineChart() {
