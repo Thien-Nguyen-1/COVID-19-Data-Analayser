@@ -64,6 +64,9 @@ public class Frame extends Application {
              paneSelector.resizeUI(stage.getWidth(), stage.getHeight());
         });
         
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            paneSelector.resizeUI(stage.getWidth(), stage.getHeight());
+        });
     }
 }
 

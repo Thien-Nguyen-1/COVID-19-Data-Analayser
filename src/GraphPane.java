@@ -34,6 +34,8 @@ public class GraphPane extends Pane
     private ComboBox<String> dataTypeComboBox;
     private GraphType graphType;
     private VBox vbox;
+    private int graphWidth;
+    private int graphHeight;
     public GraphPane(double widthPane, double heightPane)
     {
        super();
@@ -46,6 +48,8 @@ public class GraphPane extends Pane
        
        this.widthPane = widthPane;
        this.heightPane = heightPane;
+       graphWidth = 1000;
+       graphHeight = 580;
        
        this.getChildren().add(vbox);
        createComboBox();
@@ -75,7 +79,7 @@ public class GraphPane extends Pane
         xAxis.setTickLabelRotation(45);
         lineChart = new LineChart<String,Number>(xAxis,yAxis);
         lineChart.setTitle("Covid Data");
-        lineChart.setPrefSize(770,580);
+        lineChart.setPrefSize(1000,580);
         
         //double xOffset = (widthPane - lineChart.getPrefWidth()) / 2;
         //double yOffset = (heightPane - lineChart.getPrefHeight()) / 2;
@@ -174,6 +178,13 @@ public class GraphPane extends Pane
         }
         
         return dupesGone;
+    }
+    
+    public void resizeGraph(int width, int height) {
+        graphHeight = width - 50;
+        graphWidth = height - 175;
+        lineChart.setPrefWidth(graphHeight);
+        lineChart.setPrefHeight(graphWidth);
     }
     
     // is date less than or equal to other date

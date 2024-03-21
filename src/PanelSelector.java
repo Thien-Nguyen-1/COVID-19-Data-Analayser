@@ -210,6 +210,10 @@ public class PanelSelector
                     MapHandler tempPane = (MapHandler) currPane;
                     tempPane.redrawMap((int)width);
                 }
+                if(currPane instanceof GraphPane){ //re-centering UI elements in MapHandler pane
+                    GraphPane gp = (GraphPane) currPane;
+                    gp.resizeGraph((int) width, (int) height);
+                }
             }
         }
     }
