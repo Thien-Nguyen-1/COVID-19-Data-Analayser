@@ -57,13 +57,15 @@ public class GraphPane extends Pane
        dataTypeComboBox.setPromptText("Select Data Type");
        ObservableList<String> dataTypes = FXCollections.observableArrayList("Total Deaths", "Total Cases");
        dataTypeComboBox.setItems(dataTypes);
+       
+       dataTypeComboBox.setValue("Total Deaths");
+       
        dataTypeComboBox.setOnAction(e -> {
         // Call a method to handle the selection change
            handleDataTypeSelection();
        });
        
        vbox.getChildren().add(dataTypeComboBox); 
-       
     }
     
     private void createLineChart() {
@@ -76,12 +78,8 @@ public class GraphPane extends Pane
         lineChart = new LineChart<String,Number>(xAxis,yAxis);
         lineChart.setTitle("Covid Data");
         lineChart.setPrefSize(770,580);
-        
-        //double xOffset = (widthPane - lineChart.getPrefWidth()) / 2;
-        //double yOffset = (heightPane - lineChart.getPrefHeight()) / 2;
-        //lineChart.setLayoutX(100);
-        //lineChart.setLayoutY(100);
-        //lineChart.setCenterShape(true);
+
+    
         vbox.getChildren().add(lineChart);
         vbox.setVgrow(lineChart, Priority.ALWAYS);
     }
