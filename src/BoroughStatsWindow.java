@@ -45,7 +45,8 @@ public class BoroughStatsWindow
         // Title and Label
         boroughWindow.setTitle(boroughName);
         table.setEditable(true);
-        Label label = new Label("Covid Data");
+        Label label = new Label("CLICK ON A COLUMN TO SORT THE TABLE BY THAT ATTRIBUTE");
+        label.setStyle("-fx-font-weight: bold;");
         
         ObservableList<CovidData> data = FXCollections.observableArrayList(boroughData);
         
