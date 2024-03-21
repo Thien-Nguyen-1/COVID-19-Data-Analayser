@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 
 
 public class MapHandler extends Pane
@@ -34,6 +36,8 @@ public class MapHandler extends Pane
     
         this.widthPane = widthPane;
         this.heightPane = heightPane;
+        
+        //this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         
         covidLoader = new CovidDataLoader();
         allBoroughs = new ArrayList<LocShape>();
@@ -179,7 +183,10 @@ public class MapHandler extends Pane
         drawNames();
         drawKey();
         
-        addDates(startEndDates);
+        if(startEndDates != null){
+            addDates(startEndDates);
+        }
+        
     }
     
     private void setBoroughObj(int noItems, int xStart, int yStart){
