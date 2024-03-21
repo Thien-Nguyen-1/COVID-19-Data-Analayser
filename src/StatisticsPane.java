@@ -18,10 +18,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * Write a description of JavaFX class TheSimpleGUI here.
+ * This class is in charge of managing panel 3 of the viewer. It is in charge 
+ * of calculating and showing the statistics within the date range provided by
+ * the user.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Sihas Abeywickrama
+ * @version 21/03/24
  */
 
 public class StatisticsPane extends BorderPane

@@ -15,11 +15,17 @@ import javafx.scene.layout.BorderPane;
 import java.time.LocalDate;
 
 /**
- * Write a description of JavaFX class PanelSelector here.
+ * The panel selctor class adds the functionality of being able to rotate
+ * the main panes of the statistics viewer:
+ * WelcomePage pane, MapHandler panel, StatisticsPane pane and the GraphPane pane.
+ * 
+ * This is done through creating the bottom part of the window that will contains
+ * navigation buttons that allow the user to rotate through panels.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Tawyeeb Soetan
+ * @version 21/03/2024
  */
+
 public class PanelSelector
 {
     private Pane[] paneList;
@@ -29,7 +35,12 @@ public class PanelSelector
     private Button prevButton;
     private BorderPane root;
     
+    /**
+     * Class constructor. Initialises root and paneList attributes as well as 
+     * buttons.
+     */
     public PanelSelector(BorderPane root) {
+        //Initialising root, paneList and currentPane
         this.root = root;
         paneList = new Pane[]{new WelcomePage(), new MapHandler(1080,720), new StatisticsPane(1080,720), new GraphPane(1080,720)}; //change Panes for 1st and 3rd 
         currentPane = paneList[0];
@@ -47,8 +58,15 @@ public class PanelSelector
         this.disableButtons();
     }
     
+    /**
+     * The function createBottomPart creates an HBox and returns it. 
+     * 
+     * This HBox contains the next and prev buttons that are used to select 
+     * the panels. The method also formats the button positions within the HBox.
+     */
     public HBox createBottomPart()
     {
+        //
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(10));
         
@@ -66,16 +84,20 @@ public class PanelSelector
         return hbox;
     }
     
-    public Pane getCurrentPane() {
-        return currentPane;
-    }
-    
+    /**
+     * createSpacer() will create a spacer region to be used to control layout
+     * and spacing of children nodes in an HBox.
+     */
     private Region createSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
         return spacer;
     }
     
+    /**
+     * disableButtons() will disable the next and prev buttons so the user can
+     * no longer use them.
+     */
     public void disableButtons() {
         nextButton.setDisable(true);
         prevButton.setDisable(true);
@@ -84,12 +106,26 @@ public class PanelSelector
         displayPane();
     }
     
+    /**
+     * enableButton() will allow users to use the next and prev buttons.
+     */
     public void enableButtons() {
         nextButton.setDisable(false);
         prevButton.setDisable(false);
     }
     
-    public void updateDateMap(LocalDate[] startEndDates){   //update the map to show colour + stats indications
+    /*Update methods:
+     * The updateDateMap() and updateStatisticsPane methods will be called 
+     * externally through the date selector class in order to update the 
+     * display for changes in first and last date.
+    */
+   
+    /**
+     * This method is called through the date selector class to update the map pane
+     * when there is a change in the first or last date.
+     */
+    public void updateDateMap(LocalDate[] startEndDates){  
+        //update the map to show colour + stats indications
         for(int i=0; i<paneList.length;i++){
             if(paneList[i] instanceof MapHandler){
                  MapHandler refMap = (MapHandler)paneList[i];
@@ -99,6 +135,10 @@ public class PanelSelector
         }
     }
     
+    /**
+     * This method is called through the date selector class to update panel 3
+     * when there is a change in the first or last date.
+     */
     public void updateStatisticsPane(LocalDate[] firstLastDates){
         for(int i=0; i<paneList.length;i++){
             //check for if current pane is map
@@ -110,6 +150,10 @@ public class PanelSelector
         }
     }
     
+    /**
+     * The following method allows the user to go forward through the paneList, 
+     * rotating back to the index 0 after the max index.
+     */
     public void goToNextPanel(Event event) {
         if(pointer== paneList.length -1){
             pointer = 0;
@@ -122,6 +166,10 @@ public class PanelSelector
         displayPane();
     }
     
+    /**
+     * The following method allows the user to go back through the paneList, 
+     * rotating back to the max index after index 0.
+     */
     public void goToPrevPanel(Event event) {
        if(pointer==0){
             pointer = paneList.length -1;
@@ -135,21 +183,33 @@ public class PanelSelector
         displayPane();
     }
     
-    /*resizes any UI elements in different panes based on stage's width and height (parameters)*/
+    /**
+     * The resizeUI method resizes any UI elements in different panes based on
+     * stage's width and height (parameters).
+     */
     public void resizeUI(double width, double height){
         if(paneList.length >0 ){
             for(Pane currPane: paneList){
-                
                 if(currPane instanceof MapHandler){ //re-centering UI elements in MapHandler pane
                     MapHandler tempPane = (MapHandler) currPane;
                     tempPane.redrawMap((int)width);
                 }
-                
             }
         }
     }
     
+    /**
+     * Updates the BorderPane(root) to display the currentPane.
+     */
     public void displayPane() {
         root.setCenter(currentPane);
+    }
+    
+    /**
+     * Get Method- Returns the current pane that is to be or is being viewed
+     * by the user.
+     */
+    public Pane getCurrentPane() {
+        return currentPane;
     }
 }
