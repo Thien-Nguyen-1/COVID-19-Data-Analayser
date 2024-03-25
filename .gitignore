@@ -1,2 +1,4 @@
 
 src/package.bluej
+src/*.class
+src.*.ctxt
