@@ -1,4 +1,3 @@
-
-src/package.bluej
+# Ignore compiled files
 src/*.class
 src/*.ctxt
