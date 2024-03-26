@@ -165,7 +165,7 @@ public class MapHandler extends Pane
     }
     
   public void drawKey() {
-        Image key = new Image("phonto 7.png");
+        Image key = new Image("img/key.png");
         ImageView keyView = new ImageView(key);
         keyView.setFitHeight(250);
         keyView.setFitWidth(250);
