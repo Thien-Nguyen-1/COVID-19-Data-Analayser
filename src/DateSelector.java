@@ -42,7 +42,7 @@ public class DateSelector
         toLabel = new Label("To:");
         fromLabel = new Label("From");
         firstDate = LocalDate.of(2020, 2, 3);
-        lastDate  = LocalDate.of(2023, 10, 15);
+        lastDate  = LocalDate.of(2023, 2, 9);
         this.ps = ps;
     }
     
