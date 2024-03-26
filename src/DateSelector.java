@@ -101,7 +101,7 @@ public class DateSelector
         }
         System.out.println(date.toString() + " is the current date");
         
-        if (fromDate != null && date.isAfter(toDate)) {
+        if (toDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
             ps.disableButtons();
             fromDatePicker.setValue(null);
