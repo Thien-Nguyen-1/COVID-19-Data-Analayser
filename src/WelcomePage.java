@@ -53,20 +53,20 @@ public class WelcomePage extends StackPane {
         additionalParagraph3.setWrapText(true); 
 
         // Adding icons
-        Image leftIcon = new Image("coronavirus-icon.png"); 
+        Image leftIcon = new Image("img/coronavirus-icon.png"); 
         ImageView leftIconView = new ImageView(leftIcon);
         leftIconView.setFitHeight(100); // Adjusts the height of the icon 
         leftIconView.setFitWidth(100); // Adjusts the width of the icon 
         StackPane.setAlignment(leftIconView, Pos.TOP_LEFT); // Aligning the icon to the top left corner
 
-        Image rightIcon = new Image("coronavirus-icon.png"); 
+        Image rightIcon = new Image("img/coronavirus-icon.png"); 
         ImageView rightIconView = new ImageView(rightIcon);
         rightIconView.setFitHeight(100);  
         rightIconView.setFitWidth(100); 
         StackPane.setAlignment(rightIconView, Pos.TOP_RIGHT); // Aligning the icon to the top right corner
 
         // Bottom Image
-        Image bottomImage = new Image("download.png"); 
+        Image bottomImage = new Image("img/people.png"); 
         ImageView bottomImageView = new ImageView(bottomImage);
         bottomImageView.setFitHeight(120); // Adjusts the height of the image 
         bottomImageView.setFitWidth(120); // Adjusts the width of the image 
