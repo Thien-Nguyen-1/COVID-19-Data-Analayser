@@ -43,7 +43,7 @@ public class WelcomePage extends StackPane {
         additionalParagraph1.setWrapText(true); 
 
         // Additional Paragraph Below Additional Paragraph 1
-        Label additionalParagraph2 = new Label("The third slide highlights essential information including retail traffic, workplace traffic, total number of deaths, and average total cases. This slide provides a comprehensive overview of COVID-19 statistics and trends.");
+        Label additionalParagraph2 = new Label("The third and fourth slides highlights essential information including retail traffic, workplace traffic, total number of deaths, and average total cases. These slides provides a comprehensive overview of COVID-19 statistics and trends. Additionally, a graph is displayed which details total new cases and deaths within a given time period.");
         additionalParagraph2.setFont(Font.font("Calibri", 20));
         additionalParagraph2.setWrapText(true); 
 
