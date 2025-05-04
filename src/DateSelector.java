@@ -98,8 +98,8 @@ public class DateSelector
         
         if(date == null){
             return;
-        }
-        System.out.println(date.toString() + " is the current date");
+        } 
+     
         
         if (toDate != null && date.isAfter(toDate)) {
             displayErrorMessage("Start date cannot be after end date");
